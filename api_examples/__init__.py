@@ -1,8 +1,8 @@
 import json
+import os
 
-from api_examples.api_auth import APIManager
-from api_examples.openid_provider import get_cognito_provider_token
-
+from sensumapi import APIManager
+from sensumapi.openid_provider import get_cognito_provider_token
 
 def main():
     api_key = 'PublicDemoKeyForDocumentation'
@@ -17,12 +17,12 @@ def main():
 
     username = 'testuser'
     password = 'testPassword1!'
+    cognito_pool_id = os.environ.get('COGNITO_POOL_ID', None)
+    cognito_app_id = os.environ.get('COGNITO_APP_ID', None)
     cognito_region = 'eu-west-1' #NOT NECESSARILY THE SAME AS THE FED REGION
-    provider, token = get_cognito_provider_token(username, password, cognito_region)
+    provider, token = get_cognito_provider_token(username, password, cognito_region, cognito_pool_id, cognito_app_id)
 
     print(provider, token)
-
-###################### SDK BOUNDARY #######################
 
     mgr = APIManager(host,stage,api_key)
 
